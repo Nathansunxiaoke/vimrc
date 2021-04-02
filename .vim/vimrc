@@ -1,0 +1,181 @@
+filetype plugin on
+" 按 F5 执行当前 Python 代码"
+map <F5> :call PRUN()<CR>
+func! PRUN()
+    exec "w" 
+    if &filetype == 'python'
+        exec "!python3 %"
+    endif
+endfunc
+
+" 设置 gvim 显示字体
+set guifont=YaHei\ Consolas\ Hybrid\ 12
+" 前缀
+let mapleader= " "
+
+" 总是显示状态栏
+set laststatus=2
+" 显示光标当前位置
+set ruler
+" 开启行号显示
+set number
+" 高亮显示当前行/列
+set cursorline
+set cursorcolumn
+" 高亮显示搜索结果
+set hlsearch
+" 开启语法高亮功能
+syntax enable
+" 允许用指定语法高亮配色方案替换默认方案
+" monolai主题配舍
+" colorscheme monokai
+" 透明背景                                                                                                                                           
+let g:SnazzyTransparent = 1
+
+" snazzy 配色
+colorscheme snazzy
+syntax on
+" 自适应不同语言的智能缩进
+ filetype indent on
+ " 将制表符扩展为空格
+  set expandtab
+" 设置编辑时制表符占用空格数
+set tabstop=4 
+" 设置格式化时制表符占用空格数
+set shiftwidth=4
+" 让 vim 把连续数量的空格视为一个制表符
+set softtabstop=4
+" 设置屏幕在中央
+set scrolloff=15
+
+let g:lightline = {
+\ 'colorscheme': 'snazzy',
+\ }
+" 随 vim 自启动
+let g:indent_guides_enable_on_vim_startup=1
+" 从第二层开始可视化显示缩进
+let g:indent_guides_start_level=2
+" 色块宽度
+let g:indent_guides_guide_size=1
+
+" 设在注释
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/** ','right': ' */' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
+
+" air_line 配置
+if !exists('g:airline_symbols')
+let g:airline_symbols = {}
+endif
+let g:airline_left_sep = '▶'
+let g:airline_left_alt_sep = '❯'
+let g:airline_right_sep = '◀'
+let g:airline_right_alt_sep = '❮'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+
+" rainbow
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadBraces
+
+" 分屏
+map sl :set splitright<CR>:vsplit<CR>
+map sh :set nosplitright<CR>:vsplit<CR>
+map sk :set nosplitbelow<CR>:split<CR>
+map sj :set splitbelow<CR>:split<CR>
+
+" 光标
+map <LEADER>l <C-W>l  
+map <LEADER>h <C-W>h 
+map <LEADER>j <C-W>j
+map <LEADER>k <C-W>k
+
+map <up> :res +5<CR>
+map <down> :res -5<CR>
+map <left> :vertical resize-5<CR>
+map <right> :vertical resize+5<CR>
+map R :source $MYVIMRC<CR>
+
+" 快捷键 i 开/关缩进可视化
+:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+map <C-k> :NERDTreeToggle<CR>
+noremap J 5j
+noremap K 5k
+noremap H 7h
+noremap L 7l
+
+set completeopt=menu,menuone
+let g:ycm_seed_identifiers_with_syntax = 1           " 语法关键字补全
+let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
+
+
+" vundle 环境设置
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+" vundle 管理的插件列表必须位于 vundle#begin() 和 vundle#end() 之间
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'ycm-core/YouCompleteMe'
+Plugin 'preservim/nerdtree'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'preservim/nerdcommenter'
+Plugin 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+Plugin 'sickill/vim-monokai'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'connorholyday/vim-snazzy'
+
+
+" 插件列表结束
+call vundle#end()
+filetype plugin indent on
+
+
